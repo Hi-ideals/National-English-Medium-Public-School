@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>National English Medium Public School, Bidar – Affiliated to CBSE | HKES</title>
+  <meta name="description" content="National English Medium Public School (NEMPS), Bidar — a prestigious CBSE-affiliated institution under HKES, established 2016. Quality holistic education.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/js/theme.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Open+Sans:wght@600;700;800&family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="icon" href="assets/img/cropped-nemps-logo.png">
+  <script defer src="assets/js/components.js"></script>
+</head>
+<body>
+
+  <!-- HERO SLIDER -->
+  <section id="hero" class="relative overflow-hidden">
+    <div id="heroTrack" class="flex transition-transform duration-700 ease-out will-change-transform">
+      <!-- slides injected by JS -->
+    </div>
+
+    <!-- arrows -->
+    <button id="heroPrev" aria-label="Previous slide" class="hidden sm:grid place-items-center absolute left-3 lg:left-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-white/15 hover:bg-brand text-white backdrop-blur transition">
+      <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <button id="heroNext" aria-label="Next slide" class="hidden sm:grid place-items-center absolute right-3 lg:right-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-white/15 hover:bg-brand text-white backdrop-blur transition">
+      <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+
+    <!-- dots -->
+    <div id="heroDots" class="absolute bottom-5 left-1/2 -translate-x-1/2 z-20 flex gap-2.5"></div>
+  </section>
+
+  <script>
+  (function(){
+    const SLIDES = [
+      { img:'IMG-20250124-WA0000-scaled.jpg ', eyebrow:'Affiliated to CBSE | HKES Bidar',
+        title:'Welcome to National English Medium Public School',
+        text:'Where we transform potential into excellence and empower students to shape a brighter future.' },
+      { img:'Airshow.webp', eyebrow:'Established 2016 · Under HKES',
+        title:'Nurturing Young Minds for a Brighter Tomorrow',
+        text:'A balanced curriculum that blends academics with co-curricular and extracurricular growth.' },
+      { img:'Inauguration3.webp', eyebrow:'Modern Infrastructure',
+        title:'State-of-the-Art Facilities & Dedicated Faculty',
+        text:'Smart classrooms, science & computer labs, library, sports and safe transport.' },
+      { img:'nemps-new-2.webp', eyebrow:'Admissions Open',
+        title:'Join the NEMPS Family Today',
+        text:'Give your child quality, value-based and holistic education in a caring environment.' },
+    ];
+    const track = document.getElementById('heroTrack');
+    const dotsWrap = document.getElementById('heroDots');
+    track.innerHTML = SLIDES.map((s,i)=>`
+      <div class="hero-slide relative shrink-0 w-full">
+        <img src="assets/img/${s.img}" alt="${s.title}" ${i?'loading="lazy"':''} class="absolute inset-0 w-full h-full object-cover">
+        <div class="hero-overlay absolute inset-0"></div>
+        <div class="relative max-w-site mx-auto px-4 lg:px-6 py-20 sm:py-28 lg:py-36 text-white text-left">
+          <div class="mr-auto max-w-3xl flex flex-col items-start">
+            <p class="eyebrow !text-green mb-3 sm:mb-4 hs-rise text-left">${s.eyebrow}</p>
+            <h1 class="font-head font-extrabold text-3xl sm:text-5xl lg:text-[54px] leading-tight text-left hs-rise">${s.title}</h1>
+            <p class="mt-4 sm:mt-5 text-base sm:text-lg text-white/85 max-w-2xl text-left hs-rise">${s.text}</p>
+            <div class="mt-7 sm:mt-8 flex flex-wrap justify-start gap-3 sm:gap-4 hs-rise">
+              <a href="admission.html" class="btn-brand">Apply for Admission</a>
+              <a href="school-tour.html" class="btn-ghost">Take a School Tour</a>
+            </div>
+          </div>
+        </div>
+      </div>`).join('');
+    dotsWrap.innerHTML = SLIDES.map((_,i)=>`<button data-i="${i}" aria-label="Go to slide ${i+1}" class="hero-dot h-2.5 rounded-full bg-white/50 transition-all"></button>`).join('');
+
+    const slides = [...track.children];
+    const dots = [...dotsWrap.children];
+    let idx = 0, timer;
+    function go(n){
+      idx = (n + slides.length) % slides.length;
+      track.style.transform = `translateX(-${idx*100}%)`;
+      dots.forEach((d,i)=>{ d.classList.toggle('w-7', i===idx); d.classList.toggle('bg-green', i===idx); d.classList.toggle('w-2.5', i!==idx); d.classList.toggle('bg-white/50', i!==idx); });
+      slides.forEach((s,i)=>s.querySelectorAll('.hs-rise').forEach(el=>el.classList.toggle('in', i===idx)));
+    }
+    function next(){ go(idx+1); }
+    function prev(){ go(idx-1); }
+    function start(){ stop(); timer = setInterval(next, 5000); }
+    function stop(){ if(timer) clearInterval(timer); }
+    document.getElementById('heroNext').addEventListener('click', ()=>{ next(); start(); });
+    document.getElementById('heroPrev').addEventListener('click', ()=>{ prev(); start(); });
+    dots.forEach(d=>d.addEventListener('click', ()=>{ go(+d.dataset.i); start(); }));
+    const hero = document.getElementById('hero');
+    hero.addEventListener('mouseenter', stop);
+    hero.addEventListener('mouseleave', start);
+    // swipe
+    let sx=0;
+    hero.addEventListener('touchstart', e=>{ sx=e.touches[0].clientX; stop(); }, {passive:true});
+    hero.addEventListener('touchend', e=>{ const dx=e.changedTouches[0].clientX-sx; if(Math.abs(dx)>50){ dx<0?next():prev(); } start(); }, {passive:true});
+    go(0); start();
+  })();
+  </script>
+
+  <!-- HIGHLIGHTS -->
+  <section class="py-16 lg:py-20">
+    <div class="max-w-site mx-auto px-4 lg:px-6">
+      <div class="max-w-2xl mb-12 reveal">
+        <p class="eyebrow mb-3">Why NEMPS</p>
+        <h2 class="font-head font-extrabold text-3xl lg:text-4xl text-navy">A foundation built on legacy, values & excellence</h2>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="hover-card reveal bg-soft rounded-xl p-7 border border-line">
+          <div class="w-12 h-12 rounded-lg bg-brand/10 text-brand grid place-items-center mb-4 font-head font-extrabold text-xl">01</div>
+          <h3 class="font-head font-bold text-navy text-lg mb-2">Rich Legacy</h3>
+          <p class="text-3sm">A rich legacy rooted in the principles of the Hyderabad Karnataka Education Society.</p>
+        </div>
+        <div class="hover-card reveal bg-soft rounded-xl p-7 border border-line">
+          <div class="w-12 h-12 rounded-lg bg-green/10 text-green grid place-items-center mb-4 font-head font-extrabold text-xl">02</div>
+          <h3 class="font-head font-bold text-navy text-lg mb-2">Modern Infrastructure</h3>
+          <p class="text-3sm">Modern infrastructure with state-of-the-art facilities for every learner.</p>
+        </div>
+        <div class="hover-card reveal bg-soft rounded-xl p-7 border border-line">
+          <div class="w-12 h-12 rounded-lg bg-brand/10 text-brand grid place-items-center mb-4 font-head font-extrabold text-xl">03</div>
+          <h3 class="font-head font-bold text-navy text-lg mb-2">Dedicated Faculty</h3>
+          <p class="text-3sm">A dedicated faculty committed to nurturing young minds.</p>
+        </div>
+        <div class="hover-card reveal bg-soft rounded-xl p-7 border border-line">
+          <div class="w-12 h-12 rounded-lg bg-green/10 text-green grid place-items-center mb-4 font-head font-extrabold text-xl">04</div>
+          <h3 class="font-head font-bold text-navy text-lg mb-2">Co-Curricular Focus</h3>
+          <p class="text-3sm">Focus on co-curricular activities to enhance creativity and leadership skills.</p>
+        </div>
+        <div class="hover-card reveal bg-soft rounded-xl p-7 border border-line">
+          <div class="w-12 h-12 rounded-lg bg-brand/10 text-brand grid place-items-center mb-4 font-head font-extrabold text-xl">05</div>
+          <h3 class="font-head font-bold text-navy text-lg mb-2">Community Oriented</h3>
+          <p class="text-3sm">Community-oriented initiatives to instill social responsibility in students.</p>
+        </div>
+        <div class="reveal bg-navy rounded-xl p-7 text-white grid content-center">
+          <h3 class="font-head font-bold text-xl mb-2">Join us at NEMPS</h3>
+          <p class="text-3sm text-white/75 mb-4">Empowering students to shape a brighter future.</p>
+          <a href="admission.html" class="btn-green !py-2 !px-4 text-sm w-max">Enquire Now</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="py-16 lg:py-20 bg-soft">
+    <div class="max-w-site mx-auto px-4 lg:px-6 grid lg:grid-cols-2 gap-12 items-center">
+      <img src="assets/img/IMG-20250124-WA0000-scaled.jpg" alt="NEMPS students" class="reveal rounded-2xl shadow-xl w-full object-cover h-full max-h-[460px]">
+      <div class="reveal">
+        <p class="eyebrow mb-3">About Our School</p>
+        <h2 class="font-head font-extrabold text-3xl lg:text-4xl text-navy mb-5">A prestigious institution established in 2016</h2>
+        <p class="text-body mb-4 text-justify">National English Medium Public School (NEMPS) is a prestigious institution established in 2016 within the B.V.B. Campus in Bidar District. Founded under the aegis of the Hyderabad Karnataka Education Society (HKES), the school upholds the rich legacy of its parent organization, initiated in 1958 by the visionary Shri Mahadevappa Rampure.</p>
+        <p class="text-body mb-6 text-justify">Since its inception, the school has achieved remarkable milestones, growing steadily while maintaining its core values of nurturing intellectual curiosity, critical thinking, and ethical behavior — ensuring the all-round development of its students.</p>
+        <a href="about-school.html" class="btn-brand">Read More</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="py-14 bg-navy text-white">
+    <div class="max-w-site mx-auto px-4 lg:px-6 grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+      <div class="reveal"><p class="font-head font-extrabold text-4xl text-green">2016</p><p class="text-sm text-white/70 mt-1">Established</p></div>
+      <div class="reveal"><p class="font-head font-extrabold text-4xl text-green">CBSE</p><p class="text-sm text-white/70 mt-1">Affiliation</p></div>
+      <div class="reveal"><p class="font-head font-extrabold text-4xl text-green">1958</p><p class="text-sm text-white/70 mt-1">HKES Legacy Since</p></div>
+      <div class="reveal"><p class="font-head font-extrabold text-4xl text-green">100%</p><p class="text-sm text-white/70 mt-1">Holistic Focus</p></div>
+    </div>
+  </section>
+
+  <!-- PRINCIPAL -->
+  <section class="py-16 lg:py-20">
+    <div class="max-w-site mx-auto px-4 lg:px-6 grid lg:grid-cols-3 gap-10 items-start">
+      <div class="reveal">
+        <img src="assets/img/SRI-LATHA-MAM.jpg" alt="Principal Mrs. Srilatha G. Swamy" class="rounded-2xl shadow-xl w-full object-cover">
+        <div class="mt-4 text-center">
+          <p class="font-head font-bold text-navy text-lg">Mrs. Srilatha G. Swamy</p>
+          <p class="text-sm text-brand">Principal, NEMPS</p>
+        </div>
+      </div>
+      <div class="lg:col-span-2 reveal">
+        <p class="eyebrow mb-3">Principal's Message</p>
+        <h2 class="font-head font-extrabold text-3xl text-navy mb-5">Nurturing young minds, shaping the future</h2>
+        <p class="text-body mb-4 text-justify">It is with immense pride and joy that I welcome you to National English Medium Public School, an institution dedicated to nurturing young minds and shaping the future of our society. Since its establishment in 2016, our school has stood as a beacon of educational excellence, inspired by the rich legacy of the Hyderabad Karnataka Education Society.</p>
+        <p class="text-body mb-6 text-justify">At NEMPS, we believe that education is not merely about academics but also about instilling values, fostering creativity, and nurturing the potential of every child. Through our modern infrastructure, co-curricular activities, and community-focused initiatives, we aim to develop well-rounded individuals equipped with the skills and confidence to face the challenges of tomorrow.</p>
+        <a href="principal-message.html" class="btn-brand">Read Full Message</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FACILITIES -->
+  <section class="py-16 lg:py-20 bg-soft">
+    <div class="max-w-site mx-auto px-4 lg:px-6">
+      <div class="text-center max-w-2xl mx-auto mb-12 reveal">
+        <p class="eyebrow mb-3">Our Facilities</p>
+        <h2 class="font-head font-extrabold text-3xl lg:text-4xl text-navy">Everything a young learner needs to thrive</h2>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <a href="smart-classrooms.html" class="hover-card reveal bg-white rounded-xl p-6 border border-line text-center"><div class="text-4xl mb-3">🖥️</div><h3 class="font-head font-bold text-navy mb-1">Smart Classrooms</h3><p class="text-lg">Interactive, technology-enabled learning spaces.</p></a>
+        <a href="science-labs.html" class="hover-card reveal bg-white rounded-xl p-6 border border-line text-center"><div class="text-4xl mb-3">🔬</div><h3 class="font-head font-bold text-navy mb-1">Science Labs</h3><p class="text-lg">Well-equipped labs for hands-on experiments.</p></a>
+        <a href="computer-lab.html" class="hover-card reveal bg-white rounded-xl p-6 border border-line text-center"><div class="text-4xl mb-3">💻</div><h3 class="font-head font-bold text-navy mb-1">Computer Lab</h3><p class="text-lg">Modern computing facilities for digital literacy.</p></a>
+        <a href="library.html" class="hover-card reveal bg-white rounded-xl p-6 border border-line text-center"><div class="text-4xl mb-3">📚</div><h3 class="font-head font-bold text-navy mb-1">Library</h3><p class="text-lg">A rich collection to inspire reading and research.</p></a>
+        <a href="sports.html" class="hover-card reveal bg-white rounded-xl p-6 border border-line text-center"><div class="text-4xl mb-3">⚽</div><h3 class="font-head font-bold text-navy mb-1">Sports</h3><p class="text-lg">Facilities that build fitness and team spirit.</p></a>
+        <a href="transport.html" class="hover-card reveal bg-white rounded-xl p-6 border border-line text-center"><div class="text-4xl mb-3">🚌</div><h3 class="font-head font-bold text-navy mb-1">Transport</h3><p class="text-lg">Safe and reliable transport across the city.</p></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="py-16 lg:py-20">
+    <div class="max-w-site mx-auto px-4 lg:px-6">
+      <div class="text-center max-w-2xl mx-auto mb-12 reveal">
+        <p class="eyebrow mb-3">Testimonials</p>
+        <h2 class="font-head font-extrabold text-3xl lg:text-4xl text-navy">What our community says</h2>
+      </div>
+      <div class="grid md:grid-cols-3 gap-6">
+        <figure class="reveal bg-soft rounded-xl p-7 border border-line">
+          <div class="text-brand text-4xl leading-none mb-3">&ldquo;</div>
+          <blockquote class="text-body text-lg mb-5 text-justify">While I love the school's emphasis on a diverse education, I found myself wondering how I could fuse my plethora of academic interests into a unified skill-set.</blockquote>
+          <figcaption class="font-head font-bold text-navy">Luisa Silverstone <span class="block text-xs text-brand font-normal text-justify">Lead Engineer at AudioCloud</span></figcaption>
+        </figure>
+        <figure class="reveal bg-soft rounded-xl p-7 border border-line">
+          <div class="text-brand text-4xl leading-none mb-3">&ldquo;</div>
+          <blockquote class="text-body text-lg mb-5 text-justify">All classrooms are equipped with a sound-field system for the benefit of the hearing as well as the children with hearing loss.</blockquote>
+          <figcaption class="font-head font-bold text-navy">Maria Bimmer <span class="block text-xs text-brand font-normal text-justify">Manager at WallMarkt</span></figcaption>
+        </figure>
+        <figure class="reveal bg-soft rounded-xl p-7 border border-line">
+          <div class="text-brand text-4xl leading-none mb-3">&ldquo;</div>
+          <blockquote class="text-body text-lg mb-5 text-justify">A sound-field system makes it easier for students to hear the teacher's voice. Research has found these systems may improve literacy development in all children.</blockquote>
+          <figcaption class="font-head font-bold text-navy">Sven Bender <span class="block text-xs text-brand font-normal text-justify">CEO at UberCars</span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-16">
+    <div class="max-w-site mx-auto px-4 lg:px-6">
+      <div class="rounded-2xl bg-navy text-white px-8 py-14 text-center reveal">
+        <h2 class="font-head font-extrabold text-3xl lg:text-4xl mb-4">Admissions are open</h2>
+        <p class="text-white/75 max-w-xl mx-auto mb-8">Join us at National English Medium Public School, where we transform potential into excellence.</p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a href="admission.html" class="btn-brand">Apply Now</a>
+          <a href="contact.html" class="btn-ghost">Contact Us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>

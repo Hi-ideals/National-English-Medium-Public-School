@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Photo Gallery – NEMPS Bidar</title>
+  <meta name="description" content="Event-based photo gallery of National English Medium Public School, Bidar — celebrations, activities and campus life.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/js/theme.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Open+Sans:wght@600;700;800&family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="icon" href="assets/img/cropped-nemps-logo.png">
+  <script defer src="assets/js/components.js"></script>
+</head>
+<body>
+
+  <section class="relative bg-navy text-white">
+    <img src="assets/img/nemps-new-10.webp" alt="" class="absolute inset-0 w-full h-full object-cover">
+    <!-- dark overlay so text stays readable -->
+    <div class="absolute inset-0 bg-navy/55"></div>
+    <div class="absolute inset-0 opacity-20" style="background:radial-gradient(circle at 80% 20%, #c31432 0, transparent 45%), radial-gradient(circle at 10% 90%, #240b36 0, transparent 40%)"></div>
+    <div class="relative max-w-site mx-auto px-4 lg:px-6 py-16 lg:py-20 text-center">
+      <h1 class="font-head font-extrabold text-4xl lg:text-5xl">Photo Gallery</h1>
+      <p class="mt-4 text-white/70 max-w-2xl mx-auto">Relive our celebrations, activities and milestones — organised event by event.</p>
+      <nav class="mt-4 text-sm text-white/60 font-head"><a href="index.html" class="hover:text-green">Home</a> &nbsp;/&nbsp; <span class="text-green">Gallery</span></nav>
+    </div>
+  </section>
+
+  <section class="py-16 lg:py-20">
+    <div class="max-w-site mx-auto px-4 lg:px-6">
+      <div class="max-w-2xl mb-10 reveal">
+        <p class="eyebrow mb-3">Event Albums</p>
+        <h2 class="font-head font-extrabold text-3xl text-navy">Browse photos by event</h2>
+      </div>
+      <div id="albumGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-7"></div>
+    </div>
+  </section>
+
+  <!-- EVENT MODAL -->
+  <div id="eventModal" class="fixed inset-0 z-[70] hidden">
+    <div class="absolute inset-0 bg-navy/70 backdrop-blur-sm" data-emclose></div>
+    <div class="absolute inset-0 overflow-y-auto p-3 sm:p-6">
+      <div class="relative max-w-5xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden">
+        <div class="bg-navy text-white px-6 py-6 sm:px-8 relative">
+          <button data-emclose class="absolute top-4 right-4 w-9 h-9 grid place-items-center rounded-full bg-white/15 hover:bg-green transition" aria-label="Close">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+          <p id="emDate" class="text-green font-head font-semibold text-sm"></p>
+          <h3 id="emTitle" class="font-head font-extrabold text-2xl sm:text-3xl mt-1"></h3>
+          <p id="emDesc" class="text-white/75 text-sm mt-3 max-w-2xl"></p>
+          <p id="emCount" class="text-white/60 text-xs mt-3"></p>
+        </div>
+        <div class="p-5 sm:p-7">
+          <div id="emMasonry" class="masonry columns-2 md:columns-3"></div>
+        </div>
+        <div class="px-5 sm:px-7 pb-7">
+          <h4 class="font-head font-bold text-navy text-lg mb-4">Related Events</h4>
+          <div id="emRelated" class="grid grid-cols-2 lg:grid-cols-4 gap-4"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIGHTBOX -->
+  <div id="lightbox" class="fixed inset-0 z-[90] hidden bg-black/95 select-none">
+    <div class="absolute top-0 left-0 right-0 flex items-center justify-between px-4 sm:px-6 py-4 text-white z-10">
+      <span id="lbCounter" class="font-head text-sm bg-white/10 rounded-full px-3 py-1"></span>
+      <div class="flex items-center gap-2">
+        <button id="lbZoomOut" class="lbbtn" aria-label="Zoom out"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M8 11h6M21 21l-4.3-4.3"/></svg></button>
+        <button id="lbZoomIn" class="lbbtn" aria-label="Zoom in"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M11 8v6M8 11h6M21 21l-4.3-4.3"/></svg></button>
+        <a id="lbDownload" href="#" download class="lbbtn" aria-label="Download"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg></a>
+        <button id="lbFull" class="lbbtn" aria-label="Fullscreen"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H4v4M16 3h4v4M16 21h4v-4M8 21H4v-4"/></svg></button>
+        <button id="lbClose" class="lbbtn" aria-label="Close"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      </div>
+    </div>
+    <button id="lbPrev" class="lbnav left-2 sm:left-5" aria-label="Previous"><svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <button id="lbNext" class="lbnav right-2 sm:right-5" aria-label="Next"><svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></button>
+    <div class="absolute inset-0 flex items-center justify-center p-10">
+      <img id="lbImg" src="" alt="" class="max-h-full max-w-full rounded-lg shadow-2xl transition-transform duration-200" style="transform:scale(1)">
+    </div>
+    <p id="lbCaption" class="absolute bottom-4 left-0 right-0 text-center text-white/80 text-sm px-4"></p>
+  </div>
+
+  <style>
+    .lbbtn{width:40px;height:40px;display:grid;place-items:center;border-radius:9999px;background:rgba(255,255,255,.12);color:#fff;transition:.2s}
+    .lbbtn:hover{background:#81CA00}
+    .lbnav{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:48px;display:grid;place-items:center;border-radius:9999px;background:rgba(255,255,255,.12);color:#fff;z-index:10;transition:.2s}
+    .lbnav:hover{background:#00AAFF}
+  </style>
+
+  <script>
+  (function(){
+    const P = n => 'assets/img/' + n;
+    // real photo pools from the school
+    const INAUG = ['Inauguration1.webp','Inauguration2.webp','Inauguration3.webp','Inauguration4.webp','Inauguration5.webp','Inauguration6.webp','Inauguration7.webp','Inauguration8.webp'];
+    const KRISHNA = ['Krishna.webp','Krishna-1.webp','Krishna-2.webp','Krishna-3.webp','Krishna-4.webp'];
+    const TEACH = ['Teachers-scaled.webp','Teachers-1-scaled.webp','Teachers-2-scaled.webp','Teachers-3-scaled.webp','Teachers-4-scaled.webp','Teachers-5-scaled.webp'];
+    const GERMIN = ['Germinated.webp','Germinated-1.webp','Germinated-2.webp'];
+    const RAKHI = ['Rakhi.webp','Rakhi-1.webp'];
+    const NEW = ['nemps-new.webp','nemps-new-1.webp','nemps-new-2.webp','nemps-new-3.webp','nemps-new-4.webp','nemps-new-5.webp','nemps-new-6.webp','nemps-new-7.webp','nemps-new-8.webp','nemps-new-10.webp','nemps-new-11.webp','nemps-new-12.webp','nemps-new-13.webp','nemps-new-14.webp','nemps-new-16.webp'];
+    const NE = ['ne.3.png','ne.10.png','ne.12-1.jpg','ne.13.jpg','ne.14-1.jpg','ne.16-2.jpg','ne.18.jpg','ne.19.jpg','ne.20.jpg','ne.21.jpg','ne.23.jpg','ne.25.jpg','ne.6-1.jpg','ne.7-1.jpg','ne.8-2.jpg','ne.9-2.jpg'];
+    const pick = (a,s,e)=>a.slice(s,e);
+
+    const ALBUMS = [
+      {id:'inauguration', title:'School Inauguration', date:'September 2025', desc:'The grand inauguration of our new facilities, graced by dignitaries, staff, students and parents.', photos:INAUG},
+      {id:'janmashtami', title:'Janmashtami Celebration', date:'August 2025', desc:'Students celebrated Krishna Janmashtami with devotion, colourful costumes and joyful performances.', photos:KRISHNA},
+      {id:'teachers-day', title:"Teachers' Day", date:'5 September 2025', desc:'A heartfelt celebration honouring our dedicated teachers with performances and gratitude.', photos:TEACH},
+      {id:'plantation', title:'Plantation Drive', date:'2025', desc:'Our green initiative — students planted saplings and nurtured a sense of environmental responsibility.', photos:GERMIN.concat(pick(NEW,0,3))},
+      {id:'raksha-bandhan', title:'Raksha Bandhan', date:'August 2025', desc:'Celebrating the bond of love and protection with a vibrant Raksha Bandhan programme.', photos:RAKHI.concat(pick(NEW,3,5))},
+      {id:'independence-day', title:'Independence Day Celebration 2026', date:'15 August 2026', desc:'Flag hoisting, patriotic songs and cultural performances marked our Independence Day celebrations.', photos:pick(NEW,0,8)},
+      {id:'annual-day', title:'Annual Day 2026', date:'2026', desc:'A spectacular showcase of talent — dance, drama and music by students of all grades.', photos:pick(NE,0,8)},
+      {id:'yoga-day', title:'Yoga Day Celebration', date:'21 June 2026', desc:'Students and staff came together for International Yoga Day, promoting health and mindfulness.', photos:pick(NEW,5,11)},
+      {id:'science-exhibition', title:'Science Exhibition', date:'2026', desc:'Young innovators presented working models and experiments at our annual science exhibition.', photos:pick(NE,4,11)},
+      {id:'sports-day', title:'Sports Day', date:'2026', desc:'Track races, team games and the thrill of competition on our annual Sports Day.', photos:pick(NEW,8,15)},
+      {id:'republic-day', title:'Republic Day', date:'26 January 2026', desc:'Honouring the nation with flag hoisting, march-past and patriotic fervour.', photos:pick(NE,8,16)},
+      {id:'childrens-day', title:"Children's Day", date:'14 November 2025', desc:'A day full of fun, games and surprises celebrating our wonderful children.', photos:pick(NEW,2,9)},
+      {id:'farewell', title:'Farewell Ceremony', date:'2026', desc:'A warm send-off for our graduating students, filled with memories and good wishes.', photos:pick(NE,2,9)},
+      {id:'graduation', title:'Graduation Day', date:'2026', desc:'Celebrating the achievements of our students as they step into the next chapter.', photos:pick(NEW,6,13)},
+      {id:'educational-tour', title:'Educational Tour', date:'2026', desc:'Learning beyond the classroom — an enriching educational tour for our students.', photos:pick(NE,6,14)},
+    ];
+
+    // ---- Album cards ----
+    const grid = document.getElementById('albumGrid');
+    grid.innerHTML = ALBUMS.map(a => `
+      <article class="album-card hover-card reveal in bg-white rounded-2xl overflow-hidden border border-line cursor-pointer" data-id="${a.id}">
+        <div class="album-cover relative h-52 overflow-hidden">
+          <img src="${P(a.photos[0])}" alt="${a.title}" loading="lazy" class="w-full h-full object-cover">
+          <span class="absolute top-3 right-3 bg-navy/85 text-white text-xs font-head font-semibold px-2.5 py-1 rounded-full">${a.photos.length} Photos</span>
+        </div>
+        <div class="p-5">
+          <p class="text-brand text-xs font-head font-semibold uppercase tracking-wide">${a.date}</p>
+          <h3 class="font-head font-bold text-navy text-lg mt-1 mb-2">${a.title}</h3>
+          <p class="text-sm text-body line-clamp-2">${a.desc}</p>
+          <button class="mt-4 btn-brand !py-2 !px-4 text-sm view-btn">View Gallery
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        </div>
+      </article>`).join('');
+
+    // ---- Event modal ----
+    const modal = document.getElementById('eventModal');
+    const emMasonry = document.getElementById('emMasonry');
+    let current = null; // current album
+    function openEvent(id){
+      const a = ALBUMS.find(x=>x.id===id); if(!a) return; current = a;
+      document.getElementById('emDate').textContent = a.date;
+      document.getElementById('emTitle').textContent = a.title;
+      document.getElementById('emDesc').textContent = a.desc;
+      document.getElementById('emCount').textContent = a.photos.length + ' photos in this album';
+      emMasonry.innerHTML = a.photos.map((p,i)=>`
+        <div class="mb-3.5">
+          <img src="${P(p)}" alt="${a.title} ${i+1}" loading="lazy"
+            class="zoomimg w-full rounded-xl shadow-md cursor-pointer object-cover" data-idx="${i}">
+        </div>`).join('');
+      // related
+      const rel = ALBUMS.filter(x=>x.id!==id).sort(()=>Math.random()-0.5).slice(0,4);
+      document.getElementById('emRelated').innerHTML = rel.map(r=>`
+        <div class="related-card cursor-pointer rounded-xl overflow-hidden border border-line hover-card" data-id="${r.id}">
+          <img src="${P(r.photos[0])}" alt="${r.title}" loading="lazy" class="h-24 w-full object-cover">
+          <p class="px-2 py-2 text-xs font-head font-semibold text-navy line-clamp-1">${r.title}</p>
+        </div>`).join('');
+      emMasonry.querySelectorAll('img').forEach(im=>im.addEventListener('click',()=>openLightbox(+im.dataset.idx)));
+      document.getElementById('emRelated').querySelectorAll('.related-card').forEach(c=>c.addEventListener('click',()=>openEvent(c.dataset.id)));
+      modal.scrollTop = 0;
+      modal.querySelector('.absolute.inset-0.overflow-y-auto').scrollTop = 0;
+      modal.classList.remove('hidden'); document.body.style.overflow='hidden';
+    }
+    function closeEvent(){ modal.classList.add('hidden'); document.body.style.overflow=''; }
+    grid.querySelectorAll('.album-card').forEach(c=>c.addEventListener('click',()=>openEvent(c.dataset.id)));
+    modal.querySelectorAll('[data-emclose]').forEach(el=>el.addEventListener('click',closeEvent));
+
+    // ---- Lightbox ----
+    const lb = document.getElementById('lightbox'), lbImg = document.getElementById('lbImg');
+    const lbCounter = document.getElementById('lbCounter'), lbCaption = document.getElementById('lbCaption');
+    const lbDownload = document.getElementById('lbDownload');
+    let idx = 0, zoom = 1;
+    function render(){
+      const photos = current.photos;
+      lbImg.src = P(photos[idx]); zoom=1; lbImg.style.transform='scale(1)';
+      lbCounter.textContent = (idx+1)+' of '+photos.length;
+      lbCaption.textContent = current.title + ' — ' + (idx+1);
+      lbDownload.href = P(photos[idx]);
+    }
+    function openLightbox(i){ idx=i; render(); lb.classList.remove('hidden'); }
+    function closeLightbox(){ lb.classList.add('hidden'); if(document.fullscreenElement) document.exitFullscreen(); }
+    function next(){ idx=(idx+1)%current.photos.length; render(); }
+    function prev(){ idx=(idx-1+current.photos.length)%current.photos.length; render(); }
+    document.getElementById('lbNext').onclick = e=>{e.stopPropagation();next();};
+    document.getElementById('lbPrev').onclick = e=>{e.stopPropagation();prev();};
+    document.getElementById('lbClose').onclick = closeLightbox;
+    document.getElementById('lbZoomIn').onclick = ()=>{ zoom=Math.min(zoom+0.25,3); lbImg.style.transform='scale('+zoom+')'; };
+    document.getElementById('lbZoomOut').onclick = ()=>{ zoom=Math.max(zoom-0.25,1); lbImg.style.transform='scale('+zoom+')'; };
+    document.getElementById('lbFull').onclick = ()=>{ if(!document.fullscreenElement) lb.requestFullscreen(); else document.exitFullscreen(); };
+    lb.addEventListener('click', e=>{ if(e.target===lb || e.target.parentElement===lb) closeLightbox(); });
+    document.addEventListener('keydown', e=>{
+      if(lb.classList.contains('hidden')) return;
+      if(e.key==='Escape') closeLightbox();
+      if(e.key==='ArrowRight') next();
+      if(e.key==='ArrowLeft') prev();
+    });
+    // swipe
+    let sx=0;
+    lb.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});
+    lb.addEventListener('touchend',e=>{ const dx=e.changedTouches[0].clientX-sx; if(Math.abs(dx)>50){ dx<0?next():prev(); } },{passive:true});
+  })();
+  </script>
+
+</body>
+</html>

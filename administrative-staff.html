@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Staff List – NEMPS Bidar</title>
+  <meta name="description" content="Staff list of National English Medium Public School, Bidar — full roster of teaching and administrative personnel with names and designations.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/js/theme.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Open+Sans:wght@600;700;800&family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="icon" href="assets/img/cropped-nemps-logo.png">
+  <script defer src="assets/js/components.js"></script>
+</head>
+<body>
+
+  <section class="relative bg-navy text-white overflow-hidden">
+    <!-- background image -->
+    <img src="assets/img/nemps-new-10.webp" alt="" class="absolute inset-0 w-full h-full object-cover">
+    <!-- dark overlay so text stays readable -->
+    <div class="absolute inset-0 bg-navy/55"></div>
+    <!-- coloured glow accent -->
+    <div class="absolute inset-0 opacity-20" style="background:radial-gradient(circle at 80% 20%, #c31432 0, transparent 45%), radial-gradient(circle at 10% 90%, #240b36 0, transparent 40%)"></div>
+    <div class="relative max-w-site mx-auto px-4 lg:px-6 py-16 lg:py-20 text-center">
+      <h1 class="font-head font-extrabold text-4xl lg:text-5xl">Staff List</h1>
+      <p class="mt-4 text-white/70 max-w-2xl mx-auto">A comprehensive roster of educational and administrative personnel at National English Medium Public School, Bidar.</p>
+      <nav class="mt-4 text-sm text-white/60 font-head"><a href="index.html" class="hover:text-green">Home</a> &nbsp;/&nbsp; <a href="about-school.html" class="hover:text-green">About</a> &nbsp;/&nbsp; <span class="text-green">Staff List</span></nav>
+    </div>
+  </section>
+
+  <section class="py-16 lg:py-20">
+    <div class="max-w-4xl mx-auto px-4 lg:px-6">
+      <div class="flex flex-wrap items-end justify-between gap-3 mb-6 reveal">
+        <p class="text-lg text-body max-w-2xl">The teaching and administrative team that powers National English Medium Public School.</p>
+        <span id="count" class="text-sm font-head font-semibold text-brand"></span>
+      </div>
+      <div class="overflow-x-auto reveal">
+        <table class="w-full text-lg border border-line rounded-lg overflow-hidden">
+          <thead class="bg-navy text-white font-head">
+            <tr>
+              <th class="py-3 px-4 text-left w-16">Sl. No.</th>
+              <th class="py-3 px-4 text-left">Name</th>
+              <th class="py-3 px-4 text-left">Designation</th>
+            </tr>
+          </thead>
+          <tbody id="staffBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const STAFF = [
+      ['Srilatha G. Swamy','Principal'],
+      ['Akash Kolare','Vice-Principal'],
+      ['Sagar','Admin'],
+      ['Kaveri','Office Suptd.'],
+      ['Sujit','Manager'],
+      ['Gayatri','Accountant'],
+      ['Shobhavati','TGT'],
+      ['Shilpa SH','PGT'],
+      ['Jayalaxmi','PGT'],
+      ['Mahadevi','TGT'],
+      ['Annapurnima B','Other'],
+      ['Prema','PRT'],
+      ['Lalita','TGT'],
+      ['Annapurna','Other'],
+      ['Godhawari','PRT'],
+      ['Rashmi','TGT'],
+      ['Swaroopa','Other'],
+      ['Vidhyadhar D','Computer Teacher'],
+      ['Bhagyashree','TGT'],
+      ['Nagamma','PGT'],
+      ['Shivamangala','LDC'],
+      ['Suhasini','PGT'],
+      ['Dr. Chetana Padgul','Counsellor'],
+      ['Sudharani','TGT'],
+      ['Priyanka Gadgi','PGT'],
+      ['Shruti','PGT'],
+      ['Ashwini','PRT'],
+      ['Abhinaya','PRT'],
+      ['Monika','PGT'],
+      ['Saraswati','PGT'],
+      ['Nagesh Sherikar','TGT'],
+      ['Girija Patil','PGT'],
+      ['Ambika','Music Teacher'],
+      ['Prashant','TGT'],
+      ['Nikita','LDC'],
+      ['Rohan','PTI'],
+      ['Girish Reddy','Librarian'],
+      ['Jagadish R','TGT'],
+      ['Sanjeev Kumar','Wellness Teacher'],
+      ['Hemalatha Patil','PRT'],
+      ['Vaishali','TGT'],
+      ['Dr. Santhosh Sajjan','Special Educator'],
+      ['Rekha','PRT'],
+      ['Laxmi Kulkarni','PRT'],
+      ['Divya Mathad','Art & Craft Teacher'],
+      ['Asha','TGT'],
+      ['Seema','TGT'],
+    ];
+    document.getElementById('count').textContent = STAFF.length + ' members';
+    document.getElementById('staffBody').innerHTML = STAFF.map(([name, desig], i) => `
+      <tr class="border-b border-line last:border-0 ${i%2?'bg-soft/50':''}">
+        <td class="py-3 px-4 text-body">${i+1}</td>
+        <td class="py-3 px-4 font-semibold text-navy">${name}</td>
+        <td class="py-3 px-4">${desig}</td>
+      </tr>`).join('');
+  </script>
+
+</body>
+</html>

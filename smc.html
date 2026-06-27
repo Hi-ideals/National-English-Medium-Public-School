@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>School Management Committee (SMC) – NEMPS Bidar</title>
+  <meta name="description" content="School Management Committee (SMC) of National English Medium Public School, Bidar — full roster of members with names and designations.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/js/theme.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Open+Sans:wght@600;700;800&family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="icon" href="assets/img/cropped-nemps-logo.png">
+  <script defer src="assets/js/components.js"></script>
+</head>
+<body>
+
+  <section class="relative bg-navy text-white">
+    <img src="assets/img/nemps-new-10.webp" alt="" class="absolute inset-0 w-full h-full object-cover">
+        <!-- dark overlay so text stays readable -->
+        <div class="absolute inset-0 bg-navy/55"></div>
+    <div class="absolute inset-0 opacity-20" style="background:radial-gradient(circle at 80% 20%, #c31432 0, transparent 45%), radial-gradient(circle at 10% 90%, #240b36 0, transparent 40%)"></div>
+    <div class="relative max-w-site mx-auto px-4 lg:px-6 py-16 lg:py-20 text-center">
+      <h1 class="font-head font-extrabold text-4xl lg:text-5xl">School Management Committee (SMC)</h1>
+      <p class="mt-4 text-white/70 max-w-2xl mx-auto">The governing body of National English Medium Public School, Bidar.</p>
+      <nav class="mt-4 text-sm text-white/60 font-head"><a href="index.html" class="hover:text-green">Home</a> &nbsp;/&nbsp; <a href="about-school.html" class="hover:text-green">About</a> &nbsp;/&nbsp; <span class="text-green">SMC</span></nav>
+    </div>
+  </section>
+
+  <section class="py-16 lg:py-20">
+    <div class="max-w-5xl mx-auto px-4 lg:px-6">
+      <p class="text-lg text-body max-w-3xl mb-10 reveal">The School Management Committee provides governance, guidance and oversight, ensuring the school upholds the values and vision of the Hyderabad Karnataka Education Society. The current committee members are listed below.</p>
+
+      <div class="overflow-x-auto reveal">
+        <table class="w-full text-lg border border-line rounded-lg overflow-hidden">
+          <thead class="bg-navy text-white font-head">
+            <tr>
+              <th class="py-3 px-4 text-left w-12">#</th>
+              <th class="py-3 px-4 text-left">Name</th>
+              <th class="py-3 px-4 text-left">SMC Designation</th>
+              <th class="py-3 px-4 text-left">Occupation / Official Role</th>
+            </tr>
+          </thead>
+          <tbody id="smcBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const MEMBERS = [
+      ['Sri. Shashil G. Namoshi', 'President', "President, Hyderabad Karnataka Education Society, Kalaburagi; Hon'ble Member, Legislative Council (MLC)"],
+      ['Sri. Udaykumar S. Chincholi', 'Managing Director', 'Secretary, Hyderabad Karnataka Education Society, Kalaburagi'],
+      ['Dr. Srilatha G. Swamy', 'Secretary, Managing Committee', 'Principal, National English Medium Public School, Bidar'],
+      ['Smt. Shilpa Sharma', 'Member, District Administration', 'Deputy Commissioner, Bidar'],
+      ['Gp. Capt. Rajalakshmi Prithviraj', 'Member, Representative of Nearby Sainik School', 'Principal, Sainik School, Vijayapura'],
+      ['Dr. Rajnish S. Wali', 'Administrative Member', 'Governing Council Member, Hyderabad Karnataka Education Society, Kalaburagi'],
+      ['Mr. Akash Kolare', 'Member', 'Vice Principal, National English Medium Public School, Bidar'],
+      ['Mr. Sagar Kushnoor', 'Member', 'Administrative Officer, National English Medium Public School, Bidar'],
+      ['Dr. Chetana Mudda', 'Member, Teaching Staff Representative', 'Teacher, National English Medium Public School, Bidar'],
+      ['Dr. C. C. Patil', 'Member', 'Administrative Officer, Hyderabad Karnataka Education Society, Kalaburagi'],
+      ['Mr. G. H. Suresh', 'Educationist Member', 'Deputy Director of Public Instruction (DDPI), Bidar'],
+      ['Dr. Shivakumar Mithare', 'Medical Officer Member', 'BRIMS, Bidar'],
+      ['Mrs. Sunita Swamy', 'Member, Principal from Other School', 'Principal, Gnyana Sudha Vidyalaya, Bidar'],
+      ['Mrs. Priyanka Pawar', 'Member, Principal from Other School', 'Principal, Karnataka Public School, Bidar'],
+      ['Mr. Trimbak Swamy', 'Parent Representative', 'Cluster Resource Person (CRP), Navadgeri, Bidar'],
+      ['Mr. Vijay Kumar', 'Parent Representative', 'Head Constable (Wireless), Police Control Room, Bidar'],
+    ];
+    document.getElementById('smcBody').innerHTML = MEMBERS.map(([name, desig, role], i) => `
+      <tr class="border-b border-line last:border-0 ${i%2?'bg-soft/50':''}">
+        <td class="py-3 px-4 text-body">${i+1}</td>
+        <td class="py-3 px-4 font-semibold text-navy">${name}</td>
+        <td class="py-3 px-4">${desig}</td>
+        <td class="py-3 px-4 text-body">${role}</td>
+      </tr>`).join('');
+  </script>
+
+</body>
+</html>

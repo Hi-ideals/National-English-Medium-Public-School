@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Gallery – NEMPS Bidar</title>
+  <meta name="description" content="Videos from NEMPS Bidar events and activities.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/js/theme.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Open+Sans:wght@600;700;800&family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="icon" href="assets/img/cropped-nemps-logo.png">
+  <script defer src="assets/js/components.js"></script>
+</head>
+<body>
+  <section class="relative bg-navy text-white">
+    <img src="assets/img/nemps-new-10.webp" alt="" class="absolute inset-0 w-full h-full object-cover">
+    <!-- dark overlay so text stays readable -->
+    <div class="absolute inset-0 bg-navy/55"></div>
+    <div class="absolute inset-0 opacity-20" style="background:radial-gradient(circle at 80% 20%, #c31432 0, transparent 45%), radial-gradient(circle at 10% 90%, #240b36 0, transparent 40%)"></div>
+    <div class="relative max-w-site mx-auto px-4 lg:px-6 py-16 lg:py-20 text-center">
+      <h1 class="font-head font-extrabold text-4xl lg:text-5xl">Video Gallery</h1>
+      <nav class="mt-4 text-sm text-white/60 font-head"><a href="index.html" class="hover:text-green">Home</a> &nbsp;/&nbsp; <span class="text-green">Video Gallery</span></nav>
+    </div>
+  </section>
+
+  <section class="py-16 lg:py-20">
+    <div class="max-w-site mx-auto px-4 lg:px-6">
+      <div class="max-w-2xl mb-10 reveal">
+        <p class="eyebrow mb-3">Watch</p>
+        <h2 class="font-head font-extrabold text-3xl text-navy">Video Gallery</h2>
+        <p class="text-body mt-3">Highlights from our celebrations, programmes and student activities. Click any video to play.</p>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6" id="vid"></div>
+    </div>
+  </section>
+
+  <!-- VIDEO POPUP -->
+  <div id="ytModal" class="fixed inset-0 z-[80] hidden items-center justify-center bg-black/85 p-4">
+    <button id="ytClose" class="absolute top-5 right-6 text-white text-4xl leading-none" aria-label="Close">&times;</button>
+    <div class="w-full max-w-3xl">
+      <div class="aspect-video">
+        <iframe id="ytFrame" class="w-full h-full rounded-xl shadow-2xl" src="" title="Video player"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <p id="ytTitle" class="text-white text-center font-head font-semibold mt-4"></p>
+    </div>
+  </div>
+
+  <script>
+    // [ Title , YouTube VIDEO ID ]  -- replace the IDs below with your real ones
+    const v = [
+      ['78th Independence Day Celebration at National English Medium Public School Bidar.',   '3OBmVlVv3JI'],
+      ['CBSE Inspection of NEMPS', 'cXeMYgKm24w'],
+      //['Sports Day',            'dQw4w9WgXcQ'],
+      //['Independence Day',      'dQw4w9WgXcQ'],
+     // ['Cultural Programme',    'dQw4w9WgXcQ'],
+      //['Science Exhibition',    'dQw4w9WgXcQ'],
+    ];
+
+    document.getElementById('vid').innerHTML = v.map(([t, id]) => `
+      <div class="yt-card rounded-xl overflow-hidden border border-line hover-card reveal in cursor-pointer" data-id="${id}" data-title="${t}">
+        <div class="relative h-52">
+          <img src="https://img.youtube.com/vi/${id}/hqdefault.jpg" class="w-full h-full object-cover" alt="${t}" loading="lazy">
+          <div class="absolute inset-0 grid place-items-center bg-navy/40 transition hover:bg-navy/25">
+            <span class="w-14 h-14 grid place-items-center rounded-full bg-white/90 text-navy">
+              <svg class="w-6 h-6 ml-1" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </span>
+          </div>
+        </div>
+        <div class="p-4"><h3 class="font-head font-bold text-navy">${t}</h3></div>
+      </div>`).join('');
+
+    const modal = document.getElementById('ytModal');
+    const frame = document.getElementById('ytFrame');
+    const titleEl = document.getElementById('ytTitle');
+    function openYT(id, title){
+      frame.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1&rel=0';
+      titleEl.textContent = title || '';
+      modal.classList.remove('hidden'); modal.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeYT(){
+      frame.src = '';
+      modal.classList.add('hidden'); modal.classList.remove('flex');
+      document.body.style.overflow = '';
+    }
+    document.querySelectorAll('.yt-card').forEach(c =>
+      c.addEventListener('click', () => openYT(c.dataset.id, c.dataset.title)));
+    document.getElementById('ytClose').addEventListener('click', closeYT);
+    modal.addEventListener('click', e => { if (e.target === modal) closeYT(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeYT(); });
+  </script>
+
+</body>
+</html>
