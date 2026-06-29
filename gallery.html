@@ -93,6 +93,7 @@
   (function(){
     const P = n => 'assets/img/' + n;
     // real photo pools from the school
+    const BOWC = ['BOWC1.webp','BOWC.webp','BOWC2.webp','BOWC3.webp','BOWC4.webp','BOWC5.webp','BOWC6.webp','BOWC7.webp','BOWC8.webp','BOWC9.webp','BOWC10.webp','BOWC11.webp','BOWC12.webp'];
     const INAUG = ['Inauguration1.webp','Inauguration2.webp','Inauguration3.webp','Inauguration4.webp','Inauguration5.webp','Inauguration6.webp','Inauguration7.webp','Inauguration8.webp'];
     const KRISHNA = ['Krishna.webp','Krishna-1.webp','Krishna-2.webp','Krishna-3.webp','Krishna-4.webp'];
     const TEACH = ['Teachers-scaled.webp','Teachers-1-scaled.webp','Teachers-2-scaled.webp','Teachers-3-scaled.webp','Teachers-4-scaled.webp','Teachers-5-scaled.webp'];
@@ -103,6 +104,7 @@
     const pick = (a,s,e)=>a.slice(s,e);
 
     const ALBUMS = [
+      {id:'best_out_of_waste_competition', title:'Best Out of Waste Competition', date:'Jun 2026', desc:'A "Best Out of Waste" competition is a creative event where participants turn discarded or recycled materials into useful, artistic, or innovative items', photos:BOWC},
       {id:'inauguration', title:'School Inauguration', date:'September 2025', desc:'The grand inauguration of our new facilities, graced by dignitaries, staff, students and parents.', photos:INAUG},
       {id:'janmashtami', title:'Janmashtami Celebration', date:'August 2025', desc:'Students celebrated Krishna Janmashtami with devotion, colourful costumes and joyful performances.', photos:KRISHNA},
       {id:'teachers-day', title:"Teachers' Day", date:'5 September 2025', desc:'A heartfelt celebration honouring our dedicated teachers with performances and gratitude.', photos:TEACH},
